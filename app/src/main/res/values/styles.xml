@@ -6,5 +6,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="EditThemeBlue" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent" >@color/colorPrimary</item>
+    <!-- AppCompatEditText默认状态状态设置底线颜色 -->
+        <item name="colorControlNormal">#747882</item>
+    <!-- AppCompatEditText选择的底线颜色 -->
+        <item name="colorControlActivated">#415383</item>
+    </style>
 </resources>
