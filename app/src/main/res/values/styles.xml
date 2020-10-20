@@ -13,4 +13,11 @@
     <!-- AppCompatEditText选择的底线颜色 -->
         <item name="colorControlActivated">#415383</item>
     </style>
+    <style name="EditThemeRed" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent" >@color/colorPrimary</item>
+        <!-- AppCompatEditText默认状态状态设置底线颜色 -->
+        <item name="colorControlNormal">#ffb5b0</item>
+        <!-- AppCompatEditText选择的底线颜色 -->
+        <item name="colorControlActivated">#f56b6b</item>
+    </style>
 </resources>

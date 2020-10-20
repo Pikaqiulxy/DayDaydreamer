@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginStart="24dp"
+    android:layout_marginEnd="24dp"
+    tools:context=".RegisterActivity" >
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
+
+    <ImageView
+        android:id="@+id/iid"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:srcCompat="@mipmap/registerlogo" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp" />
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="setYourName"
+        android:theme="@style/EditThemeRed"
+        android:paddingTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/uid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="setYourID"
+        android:layout_marginTop="8dp"
+        android:paddingTop="5dp"
+        android:theme="@style/EditThemeRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/pw"
+        android:hint="setYourPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingTop="5dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:theme="@style/EditThemeRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/pw2"
+        android:hint="setYourPasswordAgain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingTop="5dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:theme="@style/EditThemeRed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <EditText
+        android:id="@+id/note"
+        android:layout_width="match_parent"
+        android:background="@drawable/shape_edit_red"
+        android:ems="10"
+        android:gravity="top"
+        android:inputType="text"
+        android:minLines="5"
+        android:layout_height="@dimen/dp_90"
+        android:textSize="@dimen/sp_14"/>
+
+    <Button
+        android:id="@+id/rbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/shape_button"
+        android:backgroundTint="#f56b6b"
+        android:enabled="false"
+        android:padding="6dp"
+        android:text="注册"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"/>
+</LinearLayout>
