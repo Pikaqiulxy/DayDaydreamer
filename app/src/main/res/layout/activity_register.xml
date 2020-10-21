@@ -81,14 +81,19 @@
 
     <EditText
         android:id="@+id/note"
-        android:layout_width="match_parent"
         android:background="@drawable/shape_edit_red"
         android:ems="10"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:enabled="true"
         android:gravity="top"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:minLines="5"
-        android:layout_height="@dimen/dp_90"
-        android:textSize="@dimen/sp_14"/>
+        android:maxLines="7"
+        android:scrollbars="vertical"
+        android:hint="introduceYourself"
+    />
 
     <Button
         android:id="@+id/rbutton"
