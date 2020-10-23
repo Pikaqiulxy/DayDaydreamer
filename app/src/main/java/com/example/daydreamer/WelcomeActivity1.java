@@ -38,13 +38,13 @@ public class WelcomeActivity1 extends AppCompatActivity {
         AnimatorSet animSet = new AnimatorSet();
         animSet.playTogether(alpha);      //动画控制
 
-        animSet.setDuration(5000);    //动画持续时间
+        animSet.setDuration(4000);    //动画持续时间
         animSet.start();
 
 
 
 //7s之后自动关闭
-        handler.sendEmptyMessageDelayed(0, 7000);
+        handler.sendEmptyMessageDelayed(0, 4500);
     }
 
     private Handler handler = new Handler() {

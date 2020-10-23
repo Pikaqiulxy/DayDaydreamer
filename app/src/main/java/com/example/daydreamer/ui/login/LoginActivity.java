@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login);
         final TextView goregister = findViewById(R.id.goregister);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        final TextView username = findViewById(R.id.username);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
