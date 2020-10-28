@@ -25,11 +25,6 @@
         android:layout_width="match_parent"
         android:layout_height="60dp" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <EditText
         android:id="@+id/name"
         android:layout_width="match_parent"
@@ -44,19 +39,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-
-    <EditText
-        android:id="@+id/uid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="setYourID"
-        android:background="@drawable/shape_edit_red"
-        android:layout_marginTop="8dp"
-        android:paddingTop="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/pw"
@@ -98,7 +80,7 @@
         android:maxLines="7"
         android:scrollbars="vertical"
         android:hint="introduceYourself"
-    />
+        />
 
     <Button
         android:id="@+id/rbutton"
@@ -109,7 +91,7 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/shape_button"
         android:backgroundTint="#f56b6b"
-        android:enabled="false"
+        android:enabled="true"
         android:padding="6dp"
         android:text="注册"
         android:textColor="@android:color/white"
