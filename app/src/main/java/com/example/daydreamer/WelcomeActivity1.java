@@ -11,9 +11,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.daydreamer.ui.login.LoginActivity;
-
 public class WelcomeActivity1 extends AppCompatActivity {
 
     private ImageView imageView;           //创建图片对象

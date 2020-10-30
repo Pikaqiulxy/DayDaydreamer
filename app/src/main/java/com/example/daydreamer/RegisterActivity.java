@@ -2,14 +2,14 @@ package com.example.daydreamer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -18,26 +18,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.daydreamer.ui.login.LoginActivity;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private static final String TAG = "RegisterActivity";
+    private static final String TAG = "daydreamer";
     ImageView iid;
     EditText name;
     EditText pw;
     EditText pw2;
     EditText note;
     Button rbutton;
-    String sname,suid,spw,spw2,snote;
+    String siid,sname,suid,spw,spw2,snote;
     int iuid,j=0;
 
     @Override
@@ -53,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_register);
 
-        iid = findViewById(R.id.iid);
+        iid = (ImageView)findViewById(R.id.iid);
         name = findViewById(R.id.name);
         pw = findViewById(R.id.pw);
         pw2 = findViewById(R.id.pw2);
@@ -66,8 +62,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //1.判断输入值是否为空
-
-
                 // 2.设置好IP/端口/数据库名/用户名/密码等必要的连接信息
                 String ip = "39.97.166.131";
                 int port = 3306;
@@ -123,11 +117,20 @@ public class RegisterActivity extends AppCompatActivity {
                         */
 
                         //输入语句
-                        String sql1 = "insert into users_d(iid,name,uid,pw,note) values(NULL,'"+sname+"','"+suid+"','"+spw+"','"+snote+"')";//数据库语句
+                        String sql1 = "insert into users_d(iid,name,uid,pw,note) values('"+siid+"','"+sname+"','"+suid+"','"+spw+"','"+snote+"')";//数据库语句
                         //执行sqlINSERT、UPDATE 或 DELETE 语句
                         statement.executeUpdate(sql1);
+                        //将id存到xml文件里面
+                        SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+                        sharedPreferences.getString("uid", null);
+                        Log.i(TAG, "xml创建");
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("uid",suid);
+                        editor.commit();
+                        Log.i(TAG, "xml数据已保存到sharedPreferences");
+                        //页面跳转
                         Intent intent = new Intent();
-                        intent.setClass(RegisterActivity.this, LoginActivity.class);
+                        intent.setClass(RegisterActivity.this, MainActivity.class);
                         startActivity(intent);
 
                     } catch (SQLException e) {
@@ -173,5 +176,30 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        iid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, null);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent, 2);
+            }
+        });
+
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            // 从相册返回的数据
+            if (data != null) {
+                // 得到图片的全路径
+                Uri uri = data.getData();
+                iid.setImageURI(uri);
+                //将uri转string格式，方便存入数据库
+                siid = uri.toString();
+                //Uri uri1 = Uri.parse((String) siid);
+                //iid.setImageURI(uri1);
+            }
+        }
     }
 }

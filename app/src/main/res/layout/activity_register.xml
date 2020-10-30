@@ -14,16 +14,46 @@
         android:layout_width="match_parent"
         android:layout_height="70dp" />
 
-    <ImageView
-        android:id="@+id/iid"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        app:srcCompat="@mipmap/registerlogo" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="20dp"
+            android:layout_height="100dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/iid"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:radius="10dip"
+            app:srcCompat="@mipmap/registerlogo" />
+
+        <View
+            android:id="@+id/view4"
+            android:layout_width="20dp"
+            android:layout_height="100dp"
+            android:layout_weight="1" />
+    </LinearLayout>
 
     <View
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="60dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="注册成功后，请前往个人中心查看个人账号，用于登录"
+        android:textSize="8dp"
+        android:gravity="center_horizontal"/>
 
     <EditText
         android:id="@+id/name"
@@ -68,19 +98,18 @@
 
     <EditText
         android:id="@+id/note"
-        android:background="@drawable/shape_edit_red"
-        android:ems="10"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="@drawable/shape_edit_red"
+        android:ems="10"
         android:enabled="true"
         android:gravity="top"
-        android:inputType="textMultiLine"
-        android:minLines="5"
-        android:maxLines="7"
-        android:scrollbars="vertical"
         android:hint="introduceYourself"
-        />
+        android:inputType="textMultiLine"
+        android:maxLines="7"
+        android:minLines="5"
+        android:scrollbars="vertical" />
 
     <Button
         android:id="@+id/rbutton"
@@ -93,7 +122,7 @@
         android:backgroundTint="#f56b6b"
         android:enabled="true"
         android:padding="6dp"
-        android:text="注册"
+        android:text="注册并登录"
         android:textColor="@android:color/white"
         android:textSize="20dp"/>
 
