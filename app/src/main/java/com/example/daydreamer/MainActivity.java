@@ -2,7 +2,10 @@ package com.example.daydreamer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -13,6 +16,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ImageView add;
     private List<Map<String, Object>> lists;
     private SimpleAdapter adapter;
     private ListView listView;
@@ -26,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        add = (ImageView)findViewById(R.id.add);
+
         //需要把图片和文字(一个单元中的东西)用Map对应起来，必须这样做，这是下面要用到的适配器的一个参数
         lists = new ArrayList<>();
         for (int i = 0; i < theme.length; i++) {
@@ -34,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
             map.put("theme", theme[i]);
             map.put("content", content[i]);
             lists.add(map);
+
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this, AddActivity.class);
+                    startActivity(intent);
+                }
+            });
         }
 
         //适配器指定应用自己定义的xml格式
