@@ -20,8 +20,8 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="30dp"
+            android:id="@+id/re"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:backgroundTint="#F9F9F9"
@@ -30,8 +30,8 @@
 
         <TextView
             android:id="@+id/text"
-            android:layout_width="260dp"
-            android:layout_height="50dp"
+            android:layout_width="245dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:letterSpacing="0.2"
@@ -40,10 +40,11 @@
             android:textSize="18dp" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/iid"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_weight="1"
+            android:scaleType="centerCrop"
             app:srcCompat="@mipmap/iid" />
 
     </LinearLayout>
@@ -53,101 +54,20 @@
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
-    <TextView
-        android:id="@+id/textView"
+    <EditText
+        android:id="@+id/cla"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="分类"
-        android:textColor="#f56b6b"
-        android:textSize="18dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/class1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_edit_red"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:paddingTop="5dp"
-            android:text="绘画"
-            android:textColor="#f56b6b"
-            android:textSize="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/class2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_edit_red"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:paddingTop="5dp"
-            android:text="设计"
-            android:textColor="#f56b6b"
-            android:textSize="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/class3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_edit_red"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:paddingTop="5dp"
-            android:text="剪辑"
-            android:textColor="#f56b6b"
-            android:textSize="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/class4"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_edit_red"
-            android:ems="10"
-            android:gravity="center"
-            android:inputType="textPersonName"
-            android:paddingTop="5dp"
-            android:text="手工"
-            android:textColor="#f56b6b"
-            android:textSize="15dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+        android:layout_marginTop="8dp"
+        android:background="@drawable/shape_edit_red"
+        android:ems="10"
+        android:hint="分类：绘画/设计/剪辑/手工"
+        android:inputType="textPersonName"
+        android:paddingTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/title"
@@ -190,7 +110,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/rbutton2"
+            android:id="@+id/add1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -205,7 +125,7 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/rbutton3"
+            android:id="@+id/add2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -242,7 +162,7 @@
         android:layout_marginBottom="40dp"/>
 
     <Button
-        android:id="@+id/rbutton"
+        android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"

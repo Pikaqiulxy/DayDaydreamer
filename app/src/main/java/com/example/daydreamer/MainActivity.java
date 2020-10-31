@@ -2,8 +2,13 @@ package com.example.daydreamer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -16,6 +21,9 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "daydreamer";
+    ImageView iid;
+    String suid,siid;
     private ImageView add;
     private List<Map<String, Object>> lists;
     private SimpleAdapter adapter;
@@ -31,6 +39,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         add = (ImageView)findViewById(R.id.add);
+        iid = findViewById(R.id.iid);
+
+        //头像展示
+        SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+        PreferenceManager.getDefaultSharedPreferences(this);
+        suid = sharedPreferences.getString("uid","001");
+        //siid = sharedPreferences.getString("iid","001");
+        siid="content://media/external/images/media/1916917";
+        Log.i(TAG, "xmlread"+siid);
+        //string转uri并展示
+        Uri uri1 = Uri.parse(siid);
+        iid.setImageURI(uri1);
 
         //需要把图片和文字(一个单元中的东西)用Map对应起来，必须这样做，这是下面要用到的适配器的一个参数
         lists = new ArrayList<>();

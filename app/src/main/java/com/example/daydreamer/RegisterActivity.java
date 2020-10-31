@@ -123,9 +123,11 @@ public class RegisterActivity extends AppCompatActivity {
                         //将id存到xml文件里面
                         SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
                         sharedPreferences.getString("uid", null);
+                        sharedPreferences.getString("iid", null);
                         Log.i(TAG, "xml创建");
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("uid",suid);
+                        editor.putString("iid",siid);
                         editor.commit();
                         Log.i(TAG, "xml数据已保存到sharedPreferences");
                         //页面跳转
