@@ -91,7 +91,7 @@ public class AddActivity extends AppCompatActivity {
                 int port = 3306;
                 String dbName = "daydb";
                 String url = "jdbc:mysql://" + ip + ":" + port
-                        + "/" + dbName+"?useUnicode=true&characterEncoding=utf8"; // 构建连接mysql的字符串
+                        + "/" + dbName+"?useUnicode=true&characterEncoding=UTF-8"; // 构建连接mysql的字符串
                 String user = "daydreamer";
                 String password = "123456";
 
