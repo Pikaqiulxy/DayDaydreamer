@@ -24,8 +24,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -46,6 +50,8 @@ public class AddActivity extends AppCompatActivity {
     EditText link;
     Button submit;
     String suid,siid,scla,stitle,sintro,slink,sadd1,sadd2;
+    PreparedStatement pstmst = null;
+    ByteArrayInputStream stream1 = null,stream2 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,13 +106,23 @@ public class AddActivity extends AppCompatActivity {
 
                 if (conn != null) {
                     try {
-                        // 创建用来执行sql语句的对象
-                        java.sql.Statement statement = conn.createStatement();
                         //输入语句
-                        String sql1 = "insert into works_d(uid,part,title,intro,img_1,img_2,link,time1) " +
-                                "values('"+suid+"','"+scla+"','"+stitle+"','"+sintro+"','"+sadd1+"','"+sadd2+"','"+slink+"','"+da+"')";//数据库语句
-                        //执行sqlINSERT、UPDATE 或 DELETE 语句
-                        statement.executeUpdate(sql1);
+                        String sql1 = "insert into works_d values(?,?,?,?,?,?,?,?)";//数据库语句
+                        //string转blob存储
+                        //String sql2 = "insert into t values(?,1)";//?位置是blob类型的
+                        Log.i(TAG,"xmlstart");
+                        pstmst =conn.prepareStatement(sql1);
+                        stream1 = new ByteArrayInputStream(sadd1.getBytes());
+                        stream2 = new ByteArrayInputStream(sadd2.getBytes());
+                        pstmst.setString(1,suid);
+                        pstmst.setString(2,scla);
+                        pstmst.setString(3,stitle);
+                        pstmst.setString(4,sintro);
+                        pstmst.setBinaryStream(5,stream1,stream1.available());
+                        pstmst.setBinaryStream(6,stream2,stream2.available());
+                        pstmst.setString(7,slink);
+                        pstmst.setString(8,da);
+                        pstmst.executeUpdate();//执行sqlINSERT、UPDATE 或 DELETE 语句
                         //页面跳转
                         Intent intent = new Intent();
                         intent.setClass(AddActivity.this, MainActivity.class);
@@ -168,22 +184,31 @@ public class AddActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            // 从相册返回的数据
-            if (data != null) {
-                // 得到图片的全路径
-                Uri uri = data.getData();
-                //iid.setImageURI(uri);
-                //将uri转string格式，方便存入数据库
-                sadd1 = uri.toString();
-                //Uri uri1 = Uri.parse((String) siid);
-                //iid.setImageURI(uri1);
-            }
-        }
-        if (requestCode == 2) {
-            if (data != null) {
-                Uri uri = data.getData();
-                sadd2 = uri.toString();
+
+        // 从相册返回的数据
+        if (data != null) {
+            // 得到图片的全路径
+            Uri uri = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                //img.setImageBitmap(bitmap);
+                //bitmap转base64存储
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
+
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] appicon = baos.toByteArray();// 转为byte数组
+                String sadd = Base64.encodeToString(appicon, Base64.DEFAULT);
+
+                if (requestCode == 1) {
+                    sadd1 = sadd;
+                }
+                if (requestCode == 1) {
+                    sadd2 = sadd;
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

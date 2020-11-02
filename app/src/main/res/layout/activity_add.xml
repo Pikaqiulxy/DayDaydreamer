@@ -147,8 +147,8 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/shape_edit_red"
         android:ems="10"
-        android:hint="Link"
-        android:inputType="textPassword"
+        android:hint="Project address"
+        android:inputType="textPersonName"
         android:paddingTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
