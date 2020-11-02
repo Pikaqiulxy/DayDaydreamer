@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -18,8 +21,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Random;
@@ -33,8 +41,11 @@ public class RegisterActivity extends AppCompatActivity {
     EditText pw2;
     EditText note;
     Button rbutton;
-    String siid,sname,suid,spw,spw2,snote;
+    String ssiid,sname,suid,spw,spw2,snote;
     int iuid,j=0;
+    Bitmap bitmap;
+    PreparedStatement pstmst = null;
+    ByteArrayInputStream stream = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
                 int port = 3306;
                 String dbName = "daydb";
                 String url = "jdbc:mysql://" + ip + ":" + port
-                        + "/" + dbName; // 构建连接mysql的字符串
+                        + "/" + dbName+"?useUnicode=true&characterEncoding=UTF-8"; // 构建连接mysql的字符串
                 String user = "daydreamer";
                 String password = "123456";
 
@@ -117,9 +128,19 @@ public class RegisterActivity extends AppCompatActivity {
                         */
 
                         //输入语句
-                        String sql1 = "insert into users_d(iid,name,uid,pw,note) values('"+siid+"','"+sname+"','"+suid+"','"+spw+"','"+snote+"')";//数据库语句
-                        //执行sqlINSERT、UPDATE 或 DELETE 语句
-                        statement.executeUpdate(sql1);
+                        String sql1 = "insert into users_d values(?,?,?,?,?)";//数据库语句
+                        //string转blob存储
+                        //String sql2 = "insert into t values(?,1)";//?位置是blob类型的
+                        Log.i(TAG,"xmlstart");
+                        pstmst =conn.prepareStatement(sql1);
+                        stream = new ByteArrayInputStream(ssiid.getBytes());
+                        pstmst.setBinaryStream(1,stream,stream.available());
+                        pstmst.setString(2,sname);
+                        pstmst.setString(3,suid);
+                        pstmst.setString(4,spw);
+                        pstmst.setString(5,snote);
+                        pstmst.executeUpdate();//执行sqlINSERT、UPDATE 或 DELETE 语句
+                        Log.i(TAG,"xmlstartok");
                         //将id存到xml文件里面
                         SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
                         sharedPreferences.getString("uid", null);
@@ -127,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.i(TAG, "xml创建");
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("uid",suid);
-                        editor.putString("iid",siid);
+                        editor.putString("iid",ssiid);
                         editor.commit();
                         Log.i(TAG, "xml数据已保存到sharedPreferences");
                         //页面跳转
@@ -196,12 +217,31 @@ public class RegisterActivity extends AppCompatActivity {
             if (data != null) {
                 // 得到图片的全路径
                 Uri uri = data.getData();
-                iid.setImageURI(uri);
-                //将uri转string格式，方便存入数据库
-                siid = uri.toString();
-                //Uri uri1 = Uri.parse((String) siid);
-                //iid.setImageURI(uri1);
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                    //img.setImageBitmap(bitmap);
+                    //bitmap转base64存储
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
+
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                    byte[] appicon = baos.toByteArray();// 转为byte数组
+                    ssiid = Base64.encodeToString(appicon, Base64.DEFAULT);
+                    Log.i(TAG,"xmlstring:"+ssiid+"\n");
+                    //base64转化为bitmap显示
+                    Bitmap b = base64ToPicture(ssiid);
+                    iid.setImageBitmap(b);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
+    }
+
+    //base64转bitmap显示
+    public Bitmap base64ToPicture(String imgBase64) {
+        byte[] decode = Base64.decode(imgBase64, Base64.DEFAULT);
+        Bitmap bitma = BitmapFactory.decodeByteArray(decode, 0, decode.length);
+        return bitma;
     }
 }

@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.View;
@@ -65,9 +68,10 @@ public class AddActivity extends AppCompatActivity {
         suid = sharedPreferences.getString("uid","001");
         siid = sharedPreferences.getString("iid","001");
         Log.i(TAG, "xmlread"+siid);
-        //string转uri并展示
-        Uri uri1 = Uri.parse(siid);
-        iid.setImageURI(uri1);
+        //base64转化为bitmap显示
+        Bitmap b = base64ToPicture(siid);
+        iid.setImageBitmap(b);
+
 
         final Thread thread = new Thread(new Runnable() {  //连接数据库
             @Override
@@ -182,5 +186,12 @@ public class AddActivity extends AppCompatActivity {
                 sadd2 = uri.toString();
             }
         }
+    }
+
+    //base64转bitmap显示
+    public Bitmap base64ToPicture(String imgBase64) {
+        byte[] decode = Base64.decode(imgBase64, Base64.DEFAULT);
+        Bitmap bitma = BitmapFactory.decodeByteArray(decode, 0, decode.length);
+        return bitma;
     }
 }

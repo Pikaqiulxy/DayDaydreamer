@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,12 +48,11 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
         PreferenceManager.getDefaultSharedPreferences(this);
         suid = sharedPreferences.getString("uid","001");
-        //siid = sharedPreferences.getString("iid","001");
-        siid="content://media/external/images/media/1916917";
+        siid = sharedPreferences.getString("iid","001");
         Log.i(TAG, "xmlread"+siid);
-        //string转uri并展示
-        Uri uri1 = Uri.parse(siid);
-        iid.setImageURI(uri1);
+        //base64转化为bitmap显示
+        Bitmap b = base64ToPicture(siid);
+        iid.setImageBitmap(b);
 
         //需要把图片和文字(一个单元中的东西)用Map对应起来，必须这样做，这是下面要用到的适配器的一个参数
         lists = new ArrayList<>();
@@ -60,20 +62,25 @@ public class MainActivity extends AppCompatActivity {
             map.put("theme", theme[i]);
             map.put("content", content[i]);
             lists.add(map);
-
-            add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this, AddActivity.class);
-                    startActivity(intent);
-                }
-            });
         }
-
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, AddActivity.class);
+                startActivity(intent);
+            }
+        });
         //适配器指定应用自己定义的xml格式
         adapter = new SimpleAdapter(MainActivity.this, lists, R.layout.form, new String[]{"image", "theme", "content"}, new int[]{R.id.image1, R.id.text1, R.id.text2});
         listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(adapter);
+    }
+
+    //base64转bitmap显示
+    public Bitmap base64ToPicture(String imgBase64) {
+        byte[] decode = Base64.decode(imgBase64, Base64.DEFAULT);
+        Bitmap bitma = BitmapFactory.decodeByteArray(decode, 0, decode.length);
+        return bitma;
     }
 }
