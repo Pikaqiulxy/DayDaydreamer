@@ -16,7 +16,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.UnsupportedEncodingException;
+import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText uid;
     Button login;
     String suid,spw,siid;
+    PreparedStatement ps = null;
+    ResultSet rSet=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
                 int port = 3306;
                 String dbName = "daydb";
                 String url = "jdbc:mysql://" + ip + ":" + port
-                        + "/" + dbName; // 构建连接mysql的字符串
+                        + "/" + dbName+"?useUnicode=true&characterEncoding=UTF-8"; // 构建连接mysql的字符串
                 String user = "daydreamer";
                 String password = "123456";
 
@@ -75,50 +80,39 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (conn != null) {
                     try {
-                        // 创建用来执行sql语句的对象
-                        java.sql.Statement statement = conn.createStatement();
                         //查询语句
                         String sql = "select * from users_d where uid = '"+suid+"'";
+                        // 创建用来执行sql语句的对象
+                        ps = conn.prepareStatement(sql);
                         // 执行sql查询语句并获取查询信息
-                        ResultSet rSet = statement.executeQuery(sql);
+                        rSet = ps.executeQuery();
                         Log.i(TAG, "xml创建sql");
                         //判断结果是否为空（判断是否匹配）
-                        if(rSet!=null){
-                            // 迭代打印出查询信息
-                            while (rSet.next()) {
-                                List<String> list = new ArrayList<String>();//创建取结果的列表，之所以使用列表，不用数组，因为现在还不知道结果有多少，不能确定数组长度，所有先用list接收，然后转为数组
-                                list.add(rSet.getString("pw"));
-                                List<String> list1 = new ArrayList<String>();//创建取结果的列表，之所以使用列表，不用数组，因为现在还不知道结果有多少，不能确定数组长度，所有先用list接收，然后转为数组
-                                list1.add(rSet.getString("iid"));
-                                if (list != null && list.size() > 0) {//如果list中存入了数据，转化为数组
-                                    String[] arr = new String[list.size()];//创建一个和list长度一样的数组
-                                    String[] arr1 = new String[list.size()];//创建一个和list长度一样的数组
-                                    for (int i = 0; i < list.size(); i++) {
-                                        arr[i] = list.get(i);//数组赋值了。
-                                        arr1[i] = list1.get(i);//数组赋值了。
-                                        Log.i(TAG, "xml创建"+arr1[i]);
-                                        siid = arr1[0];
-                                        if(arr[i].equals(spw)){
-                                            //将id存到xml文件里面
-                                            SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
-                                            sharedPreferences.getString("uid", null);
-                                            sharedPreferences.getString("iid", null);
-                                            Log.i(TAG, "xml创建");
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("uid",suid);
-                                            editor.putString("iid",siid);
-                                            editor.commit();
-                                            Log.i(TAG, "xml数据已保存到sharedPreferences");
-                                            //页面跳转
-                                            Intent intent = new Intent();
-                                            intent.setClass(LoginActivity.this, MainActivity.class);
-                                            startActivity(intent);
-                                        }else Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            }
+                        if(rSet.next()){
+                            // 得到对象
+                            Blob b = rSet.getBlob(1);//得到Blob对象(iid)
+                            String pw = rSet.getString(4);
+                            //blob转string
+                            siid = new String(b.getBytes(1, (int) b.length()),"GBK");//blob 转 String
+                            Log.i(TAG,"远程："+siid);
+                            if(pw.equals(spw)){
+                                //将id存到xml文件里面
+                                SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+                                sharedPreferences.getString("uid", null);
+                                sharedPreferences.getString("iid", null);
+                                Log.i(TAG, "xml创建");
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("uid",suid);
+                                editor.putString("iid",siid);
+                                editor.commit();
+                                Log.i(TAG, "xml数据已保存到sharedPreferences");
+                                //页面跳转
+                                Intent intent = new Intent();
+                                intent.setClass(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }else Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_LONG).show();
                         }
-                    } catch (SQLException e) {
+                    } catch (SQLException | UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
