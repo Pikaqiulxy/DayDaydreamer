@@ -153,7 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
                         Log.i(TAG, "xml数据已保存到sharedPreferences");
                         //页面跳转
                         Intent intent = new Intent();
-                        intent.setClass(RegisterActivity.this, MainActivity.class);
+                        intent.setClass(RegisterActivity.this, UserActivity.class);
                         startActivity(intent);
 
                     } catch (SQLException e) {
