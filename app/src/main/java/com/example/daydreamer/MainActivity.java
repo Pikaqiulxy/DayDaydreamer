@@ -108,6 +108,15 @@ public class MainActivity extends AppCompatActivity implements Runnable, Adapter
                 startActivity(intent);
             }
         });
+        iid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, UserActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
