@@ -53,36 +53,14 @@
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textColor="#333333"
-            android:textSize="22dp" />
-
-        <View
-            android:id="@+id/view15"
-            android:layout_width="6dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/dele"
-            android:layout_width="10dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="删"
-            android:background="@drawable/shape_button"
-            android:backgroundTint="#f56b6b"
-            android:textColor="#ffffff"/>
-    </LinearLayout>
+        android:layout_weight="1"
+        android:text="TextView"
+        android:textColor="#333333"
+        android:textSize="22dp" />
 
     <View
         android:id="@+id/view11"
@@ -144,6 +122,16 @@
         android:paddingLeft="20dp"
         android:singleLine="false"
         android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/dele"
+        android:layout_width="match_parent"
+        android:layout_height="34dp"
+        android:layout_weight="1"
+        android:background="@drawable/shape_button"
+        android:backgroundTint="#f56b6b"
+        android:text="删"
+        android:textColor="#ffffff" />
 
 
 </LinearLayout>

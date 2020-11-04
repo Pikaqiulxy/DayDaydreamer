@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity implements Runnable, Adapter
     private static final String TAG = "MyListActivity";
 
     static Handler handler;
-    List<HashMap<String, String>> listData;
+    //List<HashMap<String, String>> listData;
+    List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
     private ListView listView;
     MyAdapter myAdapter;
     String suid,siid,sname;
@@ -89,10 +90,10 @@ public class MainActivity extends AppCompatActivity implements Runnable, Adapter
                     Bitmap b1 = base64ToPicture(si1[0]);
                     imageView2.setImageBitmap(b1);
                     name.setText(sname);
-                    listData = (ArrayList<HashMap<String, String>>) msg.obj;
+                    list = (ArrayList<Map<String, Object>>) msg.obj;
                     myAdapter = new MyAdapter(MainActivity.this,
                             R.layout.form,
-                            (ArrayList<HashMap<String, String>>) listData);
+                            (ArrayList<Map<String, Object>>) list);
                     listView.setAdapter(myAdapter);
                     listView.setOnItemClickListener(MainActivity.this);
                 }
@@ -174,11 +175,11 @@ public class MainActivity extends AppCompatActivity implements Runnable, Adapter
                     list5.add(rSet1.getBlob(5));
                     list8.add(rSet1.getString(8));
                     Log.i(TAG, "主：读取成功");
-                    listData = new ArrayList<>();
+                    Map<String, Object> map;
                     if (list2 != null && list2.size() > 0) {//如果list中存入了数据，转化为数组
 
                         for (int i = 0; i < list2.size(); i++) {
-                            HashMap<String, String> map = new HashMap<>();
+                            map = new HashMap<String, Object>();
                             spt[i] = list2.get(i) +"·"+list8.get(i);//数组赋值了。
                             stitle[i] = list3.get(i);
                             si1[i] = new String((list5.get(i)).getBytes(1, (int) (list5.get(i)).length()),"GBK");//blob 转 String
@@ -186,15 +187,11 @@ public class MainActivity extends AppCompatActivity implements Runnable, Adapter
                             map.put("stitle",stitle[i]);
                             map.put("si1",si1[i]);
                             Log.i(TAG, "主：数组："+"+"+spt[i]+stitle[i]);
-                            listData.add(map);
+                            list.add(map);
                         }
                         Log.i(TAG, "主：数"+si1[0]);
                     }
                 }
-                //base64转化为bitmap显示
-                //Bitmap b1 = base64ToPicture(si1[0]);
-                //imageView2.setImageBitmap(b1);
-
                 conn.close();
 
             } catch (SQLException | UnsupportedEncodingException e) {
@@ -204,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements Runnable, Adapter
         }
 
         Message msg = handler.obtainMessage(7);
-        msg.obj = listData;
+        msg.obj = list;
         handler.sendMessage(msg);
     }
 

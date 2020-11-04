@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import java.io.UnsupportedEncodingException;
 import java.sql.Blob;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -25,8 +27,9 @@ import static java.sql.DriverManager.getConnection;
 public class DeletActivity extends AppCompatActivity{
 
     private static final String TAG = "daydreamer";
-    String tti;
-    Handler handler;
+    String tti,suid;
+    PreparedStatement ps = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +39,11 @@ public class DeletActivity extends AppCompatActivity{
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         tti = bundle.getString("time", "hello");
+
+        //头像展示
+        SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+        PreferenceManager.getDefaultSharedPreferences(this);
+        suid = sharedPreferences.getString("uid","001");
 
         final Thread thread = new Thread(new Runnable() {  //连接数据库
             @Override
@@ -61,16 +69,21 @@ public class DeletActivity extends AppCompatActivity{
 
                 if (conn != null) {
                     try {
-                        //删除语句
-                        java.sql.Statement statement = conn.createStatement();
-                        //DELETE FROM student WHERE `name` = '张三'
-                        String sql = "delete from works_d where time1 = '" + tti + "'";
-                        statement.executeUpdate(sql);
+
+                        //查询语句
+                        String sql = "delete from works_d where time1='"+tti+"' and uid = '"+suid+"'";
+                        // 创建用来执行sql语句的对象
+                        ps = conn.prepareStatement(sql);
+                        // 执行sql查询语句并获取查询信息
+                        ps.executeUpdate();
+
+                        conn.close();
+
                         //页面跳转
                         Intent intent = new Intent();
                         intent.setClass(DeletActivity.this, MainActivity.class);
                         startActivity(intent);
-                        conn.close();
+
                     } catch (SQLException e) {
                         e.printStackTrace();
                         Log.e(TAG, "关闭连接失败");
@@ -78,5 +91,6 @@ public class DeletActivity extends AppCompatActivity{
                 }
             }
         });
+        thread.start();
         }
 }
