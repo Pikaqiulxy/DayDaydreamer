@@ -30,6 +30,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -44,8 +46,8 @@ public class RegisterActivity extends AppCompatActivity {
     String ssiid,sname,suid,spw,spw2,snote;
     int iuid,j=0;
     Bitmap bitmap;
-    PreparedStatement pstmst = null;
-    ByteArrayInputStream stream = null;
+    PreparedStatement pstmst = null,pstmst1 = null;
+    ByteArrayInputStream stream = null,stream1 = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +74,10 @@ public class RegisterActivity extends AppCompatActivity {
         final Thread thread = new Thread(new Runnable() {  //连接数据库
             @Override
             public void run() {
-                //1.判断输入值是否为空
+                //1.获取当前时间
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");// HH:mm:ss
+                Date date = new Date(System.currentTimeMillis());
+                String da = simpleDateFormat.format(date);
                 // 2.设置好IP/端口/数据库名/用户名/密码等必要的连接信息
                 String ip = "39.97.166.131";
                 int port = 3306;
@@ -126,6 +131,19 @@ public class RegisterActivity extends AppCompatActivity {
                         pstmst.setString(5,snote);
                         pstmst.executeUpdate();//执行sqlINSERT、UPDATE 或 DELETE 语句
                         Log.i(TAG,"xmlstartok");
+
+                        String sql2 = "insert into works_d values(?,?,?,?,?,?,?,?)";
+                        pstmst1 =conn.prepareStatement(sql2);
+                        stream1 = new ByteArrayInputStream(ssiid.getBytes());
+                        pstmst1.setString(1,suid);
+                        pstmst1.setString(2,"默认");
+                        pstmst1.setString(3,"白日梦想家");
+                        pstmst1.setString(4,"欢迎加入白日梦想家");
+                        pstmst1.setBinaryStream(5,stream1,stream1.available());
+                        pstmst1.setBinaryStream(6,stream1,stream1.available());
+                        pstmst1.setString(7,"在这里输入作品链接");
+                        pstmst1.setString(8,da);
+                        pstmst1.executeUpdate();//执行sqlINSERT、UPDATE 或 DELETE 语句
                         //将id存到xml文件里面
                         SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
                         sharedPreferences.getString("uid", null);

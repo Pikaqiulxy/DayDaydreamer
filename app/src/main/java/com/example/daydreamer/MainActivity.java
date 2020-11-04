@@ -51,9 +51,7 @@ public class MainActivity extends AppCompatActivity implements Runnable, Adapter
     TextView name;
     PreparedStatement ps = null ,ps1 = null;
     ResultSet rSet=null ,rSet1=null;
-    String spt[] = new String[1000];
-    String stitle[] = new String[1000];
-    String si1[] = new String[1000];
+    String [] si1 = new String[1000];
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements Runnable, Adapter
                 if (msg.what == 7) {
                     Log.i(TAG, "主：hander启动成功");
                     //base64转化为bitmap显示
-                    Log.i(TAG, "主：数"+si1[0]);
+                    Log.i(TAG,"xianshi:"+si1[1]);
                     Bitmap b1 = base64ToPicture(si1[0]);
                     imageView2.setImageBitmap(b1);
                     name.setText(sname);
@@ -180,16 +178,13 @@ public class MainActivity extends AppCompatActivity implements Runnable, Adapter
 
                         for (int i = 0; i < list2.size(); i++) {
                             map = new HashMap<String, Object>();
-                            spt[i] = list2.get(i) +"·"+list8.get(i);//数组赋值了。
-                            stitle[i] = list3.get(i);
                             si1[i] = new String((list5.get(i)).getBytes(1, (int) (list5.get(i)).length()),"GBK");//blob 转 String
-                            map.put("spt",spt[i]);
-                            map.put("stitle",stitle[i]);
+                            map.put("spt",(list2.get(i) +"·"+list8.get(i)));
+                            map.put("stitle",list3.get(i));
                             map.put("si1",si1[i]);
-                            Log.i(TAG, "主：数组："+"+"+spt[i]+stitle[i]);
+                            Log.i(TAG,"xianshi:::::"+si1[i]);
                             list.add(map);
                         }
-                        Log.i(TAG, "主：数"+si1[0]);
                     }
                 }
                 conn.close();
