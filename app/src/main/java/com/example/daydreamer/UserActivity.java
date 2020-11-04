@@ -94,7 +94,7 @@ public class UserActivity extends AppCompatActivity implements Runnable{
                     note.setText(snote);
                     nicheng.setText("昵称");
                     zhanghao.setText("账号");
-                    jizhu.setText("（请记住您的账号");
+                    jizhu.setText("（请记住您的账号)");
                     jianjie.setText("简介");
                 }
                 super.handleMessage(msg);

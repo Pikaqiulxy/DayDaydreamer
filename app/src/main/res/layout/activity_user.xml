@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingLeft="20dp"
-                android:textSize="16dp" />
+                android:textSize="12dp" />
         </TableRow>
 
         <TableRow
