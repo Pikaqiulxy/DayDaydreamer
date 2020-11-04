@@ -202,7 +202,7 @@ public class AddActivity extends AppCompatActivity {
                 if (requestCode == 1) {
                     sadd1 = sadd;
                 }
-                if (requestCode == 1) {
+                if (requestCode == 2) {
                     sadd2 = sadd;
                 }
 
